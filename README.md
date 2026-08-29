@@ -51,20 +51,20 @@ Things that are true of all three tools.
     it — reloading the page discards it.
 - **Outbound requests.** The tools run in your browser and make **no network
   calls on their own** — nothing is sent anywhere on page load or in the
-  background. There are three external calls, and each one only happens when
-  **you explicitly trigger it**:
-  - **NVD lookup** — *only when you click **Look up in NVD*** (a couple of
-    convenience re-runs after that, e.g. following the CVSS 4.0 "switch to
-    Guided Rubric" link, count as the same action). Sends the CVE ID to the
+  background. There are three external calls, each triggered by an explicit
+  action:
+  - **NVD lookup** — sends the CVE ID to the
     [NVD REST API](https://services.nvd.nist.gov/) to pull a description and
-    CVSS metrics.
-  - **CISA KEV check** — *no separate action*: it runs server-side as part of
-    the same **Look up in NVD** request, against a copy of CISA's Known
-    Exploited Vulnerabilities catalog that is cached for 12 hours. Only the CVE
-    ID is involved. If you never run a lookup, no KEV check is made.
-  - **AI estimate** (CVSS 4.0, Guided Rubric only) — *only when you click
-    **Estimate via AI***. Sends the description, CVE, vector and any reference
-    URL you provide to Anthropic's API.
+    CVSS metrics, only when you click **Look up in NVD** (a couple of
+    convenience re-runs after that — e.g. following the CVSS 4.0 "switch to
+    Guided Rubric" link — count as the same action).
+  - **CISA KEV check** — checks the CVE against a 12‑hour‑cached copy of CISA's
+    Known Exploited Vulnerabilities catalog to show the "Listed in CISA KEV
+    Catalog" badge, as part of the same request — only when you click **Look up
+    in NVD**. No lookup, no KEV check.
+  - **AI estimate** (CVSS 4.0, Guided Rubric only) — sends the description, CVE,
+    vector and any reference URL you provide to Anthropic's API, only when you
+    click **Estimate via AI**.
 - **Severity bands** (standard CVSS): `0.0` None · `< 4.0` Low · `< 7.0` Medium
   · `< 9.0` High · otherwise Critical. Base scores use the CVSS round‑up
   (nearest 0.1, rounding up).
