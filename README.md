@@ -49,15 +49,22 @@ Things that are true of all three tools.
     cleared when the session ends.
   - The VEX Generator keeps everything in **browser memory** until you download
     it — reloading the page discards it.
-- **Outbound requests.** The tools run in your browser, with three exceptions
-  that call external services:
-  - **NVD lookup** — sends the CVE ID to the [NVD REST API](https://services.nvd.nist.gov/)
-    to pull a description and CVSS metrics.
-  - **CISA KEV check** — checks the CVE against CISA's Known Exploited
-    Vulnerabilities catalog to show the "Listed in CISA KEV Catalog" badge. The
-    catalog is cached for 12 hours.
-  - **AI estimate** (CVSS 4.0 only) — sends the description, CVE, vector and any
-    reference URL you provide to Anthropic's API.
+- **Outbound requests.** The tools run in your browser and make **no network
+  calls on their own** — nothing is sent anywhere on page load or in the
+  background. There are three external calls, and each one only happens when
+  **you explicitly trigger it**:
+  - **NVD lookup** — *only when you click **Look up in NVD*** (a couple of
+    convenience re-runs after that, e.g. following the CVSS 4.0 "switch to
+    Guided Rubric" link, count as the same action). Sends the CVE ID to the
+    [NVD REST API](https://services.nvd.nist.gov/) to pull a description and
+    CVSS metrics.
+  - **CISA KEV check** — *no separate action*: it runs server-side as part of
+    the same **Look up in NVD** request, against a copy of CISA's Known
+    Exploited Vulnerabilities catalog that is cached for 12 hours. Only the CVE
+    ID is involved. If you never run a lookup, no KEV check is made.
+  - **AI estimate** (CVSS 4.0, Guided Rubric only) — *only when you click
+    **Estimate via AI***. Sends the description, CVE, vector and any reference
+    URL you provide to Anthropic's API.
 - **Severity bands** (standard CVSS): `0.0` None · `< 4.0` Low · `< 7.0` Medium
   · `< 9.0` High · otherwise Critical. Base scores use the CVSS round‑up
   (nearest 0.1, rounding up).
