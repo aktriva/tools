@@ -257,22 +257,12 @@ document, and all state lives in browser memory until you download it.
 
 ### Step 3 — Assessment
 
-Up to five yes / no / unknown questions. Status and justification are derived
-automatically, and a later question only appears when the answer so far isn't
-conclusive:
-
-| # | Question | Conclusive answers |
-|---|----------|--------------------|
-| 1 | Does the product contain the vulnerable component? | **No** → Not Affected (*component not present*) · **Unknown** → Under Investigation |
-| 2 | Is the vulnerable code included? | **No** → Not Affected (*vulnerable code not present*) · **Unknown** → Under Investigation |
-| 3 | Can the vulnerable functionality be executed? | **No** → Not Affected (*not in execute path*) |
-| 4 | Are mitigations already in place? | **Yes** → Not Affected (*inline mitigation exists*) |
-| 5 | Has a fix been released? | **Yes** → Fixed (reveals a **Fixed Version** field) · **No** → Affected |
-
-- Optional **Rationale** and **Recommendation** free‑text fields. Recommendation
-  is disabled when the status is *Not Affected* (nothing to remediate).
-- **Per‑product overrides** let individual products carry a different status or
-  justification from the default.
+Answer a short series of yes / no / unknown questions about the vulnerability;
+the wizard derives the VEX status (Not Affected, Affected, Fixed, or Under
+Investigation) and justification for you, only asking a further question when
+your answer so far isn't conclusive. Add optional **Rationale** and
+**Recommendation** notes, and use **per‑product overrides** if a specific
+product needs a different status or justification from the default.
 
 ### Step 4 — Review
 
