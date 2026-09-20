@@ -6,10 +6,10 @@ or stored anywhere.
 
 | Tool | Live at | What it does |
 |------|---------|--------------|
-| **CVSS 3.1 Vulnerability Scoring** | <https://app.aktriva.com/cvss/> | Score vulnerabilities with CVSS v3.1 base metrics, or a guided questionnaire adapted from MITRE's *"Rubric for Applying CVSS to Medical Devices."* Build a findings table and export it to CSV. |
-| **CVSS 4.0 Vulnerability Scoring** | <https://app.aktriva.com/cvss4/> | Score vulnerabilities with CVSS v4.0: direct base metrics, a guided v4.0 rubric, a v3.1‑to‑v4.0 converter, and an AI‑assisted draft score. Build a findings table and export it to CSV. |
-| **VEX Generator** | <https://app.aktriva.com/vex/> | Produce standards‑compliant VEX (Vulnerability Exploitability eXchange) documents in CycloneDX 1.6 format through a guided five‑step wizard, with schema validation and an HTML / PDF report. |
-| **CRA Applicability Assessment** | <https://aktriva.com/tools/cra-applicability-assessment> | A branching questionnaire, adapted from EU Cyber Resilience Act Article 2 and Article 3, that determines whether a product falls within CRA scope and which conformity tier applies. Export the result as a text file. |
+| **[CVSS 3.1 Vulnerability Scoring](#cvss-31-vulnerability-scoring)** | <https://app.aktriva.com/cvss/> | Score vulnerabilities with CVSS v3.1 base metrics, or a guided questionnaire adapted from MITRE's *"Rubric for Applying CVSS to Medical Devices."* Build a findings table and export it to CSV. |
+| **[CVSS 4.0 Vulnerability Scoring](#cvss-40-vulnerability-scoring)** | <https://app.aktriva.com/cvss4/> | Score vulnerabilities with CVSS v4.0: direct base metrics, a guided v4.0 rubric, a v3.1‑to‑v4.0 converter, and an AI‑assisted draft score. Build a findings table and export it to CSV. |
+| **[VEX Generator](#vex-generator)** | <https://app.aktriva.com/vex/> | Produce standards‑compliant VEX (Vulnerability Exploitability eXchange) documents in CycloneDX 1.6 format through a guided five‑step wizard, with schema validation and an HTML / PDF report. |
+| **[CRA Applicability Assessment](#cra-applicability-assessment)** | <https://aktriva.com/tools/cra-applicability-assessment> | A branching questionnaire, adapted from EU Cyber Resilience Act Article 2 and Article 3, that determines whether a product falls within CRA scope and which conformity tier applies. Export the result as a text file. |
 
 This repository hosts the documentation and the public issue tracker for these
 four tools. The tools themselves are developed and hosted by
