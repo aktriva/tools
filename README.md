@@ -295,66 +295,31 @@ best‑effort basis (the vocabularies aren't 1:1).
 
 ## CRA Applicability Assessment
 
-A short branching questionnaire, adapted from EU Cyber Resilience Act (CRA)
-Article 2 and Article 3 (Regulation (EU) 2024/2847), that determines whether a
-single product falls within CRA scope and, if so, which conformity tier
-applies. Unlike the three tools above it's hosted on the main site
-(`aktriva.com`, not `app.aktriva.com`), has no account/session concept beyond
-one in‑memory assessment, and makes **no external network calls at all** — no
-NVD, no KEV, no AI. Screen one product at a time; run it again separately for
-every accessory or companion product.
+A short questionnaire, adapted from EU Cyber Resilience Act (CRA) Article 2
+and Article 3, that tells you whether a single product falls within CRA scope
+and, if so, which conformity tier applies. It's hosted on the main site
+rather than `app.aktriva.com`, and — unlike the other three tools — makes no
+outbound calls of any kind: no NVD, no KEV, no AI. Screen one product at a
+time; run the assessment again separately for every accessory or companion
+product.
 
-### Flow
+### How to use it
 
-1. **Intro** — optional product/model name, carried through the assessment and
-   the exported summary.
-2. **Questions** — one Yes/No question per screen, each tied to a specific CRA
-   article or Annex, with supporting detail, examples, and (where useful)
-   extra guidance. A progress bar tracks position; **← Back** reopens the
-   previous question and discards its answer.
-3. **Result** — a scope/tier determination with its legal basis, a numbered
-   "why you got this result" replay of every question and answer, and a "what
-   to record" checklist for the compliance file.
+1. Optionally enter a product or model name — it's carried through to your
+   downloaded summary.
+2. Answer each Yes/No question as it's presented. Every question includes the
+   explanation and examples you need to answer it, and a progress bar shows
+   how far along you are. Use **← Back** if you want to change a previous
+   answer.
+3. You'll land on a result: whether the product is in or out of CRA scope,
+   and which conformity tier applies if it's in scope. The result comes with
+   its legal basis, a replay of how each answer led there, and a checklist of
+   what to keep on file for your compliance records.
+4. Click **Download summary** to save the whole assessment — your answers,
+   the result, and the disclaimer — as a text file for your records.
 
-### Question graph
-
-The graph and its copy live in `src/lib/craChecklist.ts` in the website repo
-(`aktriva/website`), not in this repo:
-
-1. **Connectivity** (Art. 2(1)) — no data connection of any kind → **out of
-   scope**.
-2. **Commercial activity** (Art. 3(22)) — not distributed commercially by a
-   responsible manufacturer → **likely out of scope, flagged for review** (may
-   instead be an "open‑source software steward" under Art. 3(14)).
-3. **MDR/IVDR device** (Art. 2(2)(a)/(b)) — the product itself meets the
-   MDR/IVDR device definition → **excluded**.
-4. **MDR/IVDR accessory** (MDR/IVDR Art. 2 / 1(4)) — required for a specific
-   MDR/IVDR device to work → **excluded**.
-5. **Other Article 2 exclusions** (Art. 2(2)(c), 2(3)–2(7)) — motor vehicle,
-   aviation/marine, spare part, defence, or Commission‑recognised equivalent
-   regime → **excluded**.
-6. **Annex III Class I / Class II match** — core functionality (not every
-   embedded component) matches a Class I or Class II "important product"
-   category → **in scope**, with the assessment method that tier requires.
-7. **Annex IV critical‑product match** — matches a critical‑hardware category
-   → **in scope, critical tier**.
-8. No match anywhere above → **in scope, default tier** (self‑assessment).
-
-### Export
-
-**Download summary** saves a plain‑text file
-(`cra-assessment-<product-slug>-<date>.txt`) with the product name, assessment
-date, the checklist's "last reviewed" date, every question/answer with its
-reasoning, the result and its legal basis, and the tool's disclaimer. There is
-no CSV or PDF output for this tool.
-
-### Keeping it current
-
-The checklist logic carries a "last reviewed" date shown on the page and in
-the export. CRA harmonised standards and further implementing/delegated acts
-for Annex III/IV classification are still being finalized — when they change,
-update `STEPS`/`RESULTS`/`LAST_REVIEWED` in `src/lib/craChecklist.ts` (website
-repo) and bump that date.
+Note that progress isn't saved between visits, so finish an assessment in one
+sitting or download the summary before navigating away.
 
 ---
 
