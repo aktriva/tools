@@ -9,9 +9,10 @@ or stored anywhere.
 | **CVSS 3.1 Vulnerability Scoring** | <https://app.aktriva.com/cvss/> | Score vulnerabilities with CVSS v3.1 base metrics, or a guided questionnaire adapted from MITRE's *"Rubric for Applying CVSS to Medical Devices."* Build a findings table and export it to CSV. |
 | **CVSS 4.0 Vulnerability Scoring** | <https://app.aktriva.com/cvss4/> | Score vulnerabilities with CVSS v4.0: direct base metrics, a guided v4.0 rubric, a v3.1‑to‑v4.0 converter, and an AI‑assisted draft score. Build a findings table and export it to CSV. |
 | **VEX Generator** | <https://app.aktriva.com/vex/> | Produce standards‑compliant VEX (Vulnerability Exploitability eXchange) documents in CycloneDX 1.6 format through a guided five‑step wizard, with schema validation and an HTML / PDF report. |
+| **CRA Applicability Assessment** | <https://aktriva.com/tools/cra-applicability-assessment> | A branching questionnaire, adapted from EU Cyber Resilience Act Article 2 and Article 3, that determines whether a product falls within CRA scope and which conformity tier applies. Export the result as a text file. |
 
 This repository hosts the documentation and the public issue tracker for these
-three tools. The tools themselves are developed and hosted by
+four tools. The tools themselves are developed and hosted by
 [Aktriva](https://aktriva.com).
 
 ---
@@ -19,7 +20,7 @@ three tools. The tools themselves are developed and hosted by
 ## Reporting bugs & feedback
 
 **Use this repository's [Issues](https://github.com/aktriva/tools/issues) to
-report a problem or request a change for any of the three tools.**
+report a problem or request a change for any of the four tools.**
 
 When filing an issue, please include:
 
@@ -41,7 +42,9 @@ For anything security‑sensitive about the tools themselves, contact us through
 
 ## Common behavior
 
-Things that are true of all three tools.
+Things that are true of the three CVSS/VEX tools below (they share a UI and
+are hosted together at `app.aktriva.com`). The CRA Applicability Assessment
+tool works differently and is covered separately in its own section.
 
 - **No account, no database.** Nothing you enter is written to a server or
   shared with anyone.
@@ -290,6 +293,71 @@ best‑effort basis (the vocabularies aren't 1:1).
 
 ---
 
+## CRA Applicability Assessment
+
+A short branching questionnaire, adapted from EU Cyber Resilience Act (CRA)
+Article 2 and Article 3 (Regulation (EU) 2024/2847), that determines whether a
+single product falls within CRA scope and, if so, which conformity tier
+applies. Unlike the three tools above it's hosted on the main site
+(`aktriva.com`, not `app.aktriva.com`), has no account/session concept beyond
+one in‑memory assessment, and makes **no external network calls at all** — no
+NVD, no KEV, no AI. Screen one product at a time; run it again separately for
+every accessory or companion product.
+
+### Flow
+
+1. **Intro** — optional product/model name, carried through the assessment and
+   the exported summary.
+2. **Questions** — one Yes/No question per screen, each tied to a specific CRA
+   article or Annex, with supporting detail, examples, and (where useful)
+   extra guidance. A progress bar tracks position; **← Back** reopens the
+   previous question and discards its answer.
+3. **Result** — a scope/tier determination with its legal basis, a numbered
+   "why you got this result" replay of every question and answer, and a "what
+   to record" checklist for the compliance file.
+
+### Question graph
+
+The graph and its copy live in `src/lib/craChecklist.ts` in the website repo
+(`aktriva/website`), not in this repo:
+
+1. **Connectivity** (Art. 2(1)) — no data connection of any kind → **out of
+   scope**.
+2. **Commercial activity** (Art. 3(22)) — not distributed commercially by a
+   responsible manufacturer → **likely out of scope, flagged for review** (may
+   instead be an "open‑source software steward" under Art. 3(14)).
+3. **MDR/IVDR device** (Art. 2(2)(a)/(b)) — the product itself meets the
+   MDR/IVDR device definition → **excluded**.
+4. **MDR/IVDR accessory** (MDR/IVDR Art. 2 / 1(4)) — required for a specific
+   MDR/IVDR device to work → **excluded**.
+5. **Other Article 2 exclusions** (Art. 2(2)(c), 2(3)–2(7)) — motor vehicle,
+   aviation/marine, spare part, defence, or Commission‑recognised equivalent
+   regime → **excluded**.
+6. **Annex III Class I / Class II match** — core functionality (not every
+   embedded component) matches a Class I or Class II "important product"
+   category → **in scope**, with the assessment method that tier requires.
+7. **Annex IV critical‑product match** — matches a critical‑hardware category
+   → **in scope, critical tier**.
+8. No match anywhere above → **in scope, default tier** (self‑assessment).
+
+### Export
+
+**Download summary** saves a plain‑text file
+(`cra-assessment-<product-slug>-<date>.txt`) with the product name, assessment
+date, the checklist's "last reviewed" date, every question/answer with its
+reasoning, the result and its legal basis, and the tool's disclaimer. There is
+no CSV or PDF output for this tool.
+
+### Keeping it current
+
+The checklist logic carries a "last reviewed" date shown on the page and in
+the export. CRA harmonised standards and further implementing/delegated acts
+for Annex III/IV classification are still being finalized — when they change,
+update `STEPS`/`RESULTS`/`LAST_REVIEWED` in `src/lib/craChecklist.ts` (website
+repo) and bump that date.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Cause / fix |
@@ -300,6 +368,7 @@ best‑effort basis (the vocabularies aren't 1:1).
 | "You've reached today's AI estimation limit" / "at capacity for today" | A per‑IP or global daily cap was hit; it resets at midnight. Continue manually. |
 | Findings disappeared | Expected — the CVSS tools store findings in the browser session only, and the VEX Generator in memory only. Export before closing. |
 | Metrics from an NVD lookup look wrong for the device | NVD's score reflects a generic context. Adjust the metrics (or use the MITRE / Guided Rubric mode) for the device's actual use. |
+| CRA assessment reset / progress lost | Expected — the CRA tool keeps its state in memory only, with no session storage; reloading or navigating away starts over. Download the summary before closing. |
 
 ---
 
